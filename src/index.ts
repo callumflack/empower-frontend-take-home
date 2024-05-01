@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { accounts, categories, transactions } from "./mockData";
+import { Account } from "../client/src/components/Accounts/types";
 
 const app = new Elysia()
   .use(cors())
@@ -11,7 +12,20 @@ const app = new Elysia()
     return categories;
   })
   .get("/accounts", () => {
-    return accounts;
+    const result: Account[] = accounts.map((x) => ({
+      id: x.account_id,
+      available: x.balances.available,
+      current: x.balances.current,
+      currencyCode: x.balances.iso_currency_code,
+      lastFour: x.mask,
+      limit: x.balances.limit,
+      name: x.name,
+      officialName: x.official_name,
+      subtype: x.subtype,
+      type: x.type,
+    }));
+
+    return result;
   })
   .listen(3000);
 

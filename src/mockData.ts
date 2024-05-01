@@ -1,3 +1,4 @@
+// and image would be cool for this api
 export const accounts = [
   {
     account_id: "1",
@@ -8,7 +9,7 @@ export const accounts = [
       limit: null,
       unofficial_currency_code: null,
     },
-    mask: "0000",
+    mask: "1234",
     name: "Plaid Checking",
     official_name: "Plaid Gold Standard 0% Interest Checking",
     subtype: "checking",
@@ -23,7 +24,7 @@ export const accounts = [
       limit: null,
       unofficial_currency_code: null,
     },
-    mask: "0000",
+    mask: "7777",
     name: "Ally Bank",
     official_name: "Ally Financial Inc. Spending Account",
     subtype: "checking",

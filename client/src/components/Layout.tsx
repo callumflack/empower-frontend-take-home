@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom';
-// import { Header } from './Header';
+import { Header } from './Header';
 
 export const Layout = () => {
   return (
-    <main className="flex min-h-full flex-col bg-dark transition-all">
-      {/* <Header /> */}
+    <main className="flex min-h-full flex-col">
+      <Header />
 
-      <div className="mx-auto max-w-7xl flex-grow p-6 pt-8 sm:p-8">
+      <div className="mx-auto w-full max-w-7xl flex-grow p-8">
         {/* Render nested route component */}
         <Outlet />
       </div>

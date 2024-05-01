@@ -16,7 +16,8 @@ module.exports = {
     extend: {
       colors: {
         lightGrey: '#F0F1F0',
-        textGrey: '#C2C3C4',
+        mediumGrey: '#777777',
+        empowerPinkDark: '#ffa477',
         empowerPink: '#FCD0BA',
         empowerGreen: '#C4DDB9',
         empowerTeal: '#DEECE9',
