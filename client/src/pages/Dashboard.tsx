@@ -1,14 +1,11 @@
-import { useGetCategories } from '@/api/useGetCategories';
-import { useGetTransactions } from '@/api/useGetTransactions';
 import { Accounts } from '@/components/Accounts';
+import { Trackers } from '@/components/Trackers/Trackers';
 
 export const Dashboard = () => {
-  const { data: transactions } = useGetTransactions();
-  const { data: categories } = useGetCategories();
-
   return (
-    <div className="w-full">
+    <div className="flex w-full flex-col gap-8">
       <Accounts />
+      <Trackers />
     </div>
   );
 };
