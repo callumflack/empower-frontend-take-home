@@ -19,6 +19,7 @@ export interface Category {
 }
 
 export interface Tracker {
+  id: string;
   categoryId: string;
   budget: number;
 }

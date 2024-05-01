@@ -204,14 +204,17 @@ export const categories = [
 
 export const trackers: Tracker[] = [
   {
+    id: "tracker1",
     categoryId: "1000",
     budget: 100,
   },
   {
+    id: "tracker2",
     categoryId: "2000",
     budget: 150,
   },
   {
+    id: "tracker3",
     categoryId: "5000",
     budget: 50,
   },
