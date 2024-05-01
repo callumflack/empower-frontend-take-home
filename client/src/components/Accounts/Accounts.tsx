@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export const Accounts = () => {
   const { data: accounts } = useGetAccounts();
-  console.log('accounts data:', accounts);
+
   const getTotal = () =>
     accounts?.reduce((a, b) => a + b.current, 0).toFixed(2);
 
@@ -12,7 +12,7 @@ export const Accounts = () => {
     <section>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">All accounts</h1>
+          <h1 className="text-2xl font-semibold">All Accounts</h1>
           <p className="text-mediumGrey">Total: ${getTotal()}</p>
         </div>
 
@@ -31,7 +31,7 @@ export const Accounts = () => {
                 <div className="flex items-center justify-between gap-4 p-6">
                   <div className="flex flex-col">
                     <p className="font-semibold">{account.name}</p>
-                    <p className="text-mediumGrey text-sm first-letter:uppercase">
+                    <p className="text-sm text-mediumGrey first-letter:uppercase">
                       {account.subtype}
                       <span className="px-1">&#183;</span>
                       {account.lastFour}
@@ -41,7 +41,7 @@ export const Accounts = () => {
                   <div className=" flex gap-6">
                     <p className="text-sm text-black">${account.current}</p>
                     <ChevronRightIcon
-                      className="text-mediumGrey h-5 w-5 flex-none"
+                      className="h-5 w-5 flex-none text-mediumGrey"
                       aria-hidden="true"
                     />
                   </div>

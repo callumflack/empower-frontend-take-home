@@ -1,3 +1,5 @@
+import { Tracker } from "../client/src/components/Trackers/types";
+
 // and image would be cool for this api
 export const accounts = [
   {
@@ -170,12 +172,12 @@ export const transactions = [
 export const categories = [
   {
     id: "1000",
-    name: "Food and Drink",
-    subCategories: ["FOOD_AND_DRINK_FAST_FOOD, FOOD_AND_DRINK_GROCERIES"],
+    name: "Food",
+    subCategories: ["FOOD_AND_DRINK_FAST_FOOD"],
   },
   {
     id: "2000",
-    name: "General Merchandise",
+    name: "Shopping",
     subCategories: ["GENERAL_MERCHANDISE_SUPERSTORES"],
   },
   {
@@ -187,5 +189,30 @@ export const categories = [
     id: "4000",
     name: "Kids",
     subCategories: [""],
+  },
+  {
+    id: "5000",
+    name: "Transportation",
+    subCategories: [""],
+  },
+  {
+    id: "6000",
+    name: "Groceries",
+    subCategories: ["FOOD_AND_DRINK_GROCERIES"],
+  },
+];
+
+export const trackers: Tracker[] = [
+  {
+    categoryId: "1000",
+    budget: 100,
+  },
+  {
+    categoryId: "2000",
+    budget: 150,
+  },
+  {
+    categoryId: "5000",
+    budget: 50,
   },
 ];

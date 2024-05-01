@@ -1,8 +1,12 @@
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
-import { accounts, categories, transactions } from "./mockData";
+import { accounts, categories, trackers, transactions } from "./mockData";
 import { Account } from "../client/src/components/Accounts/types";
-import { Transaction } from "../client/src/api/types";
+import {
+  Category,
+  Tracker,
+  Transaction,
+} from "../client/src/components/Trackers/types";
 
 const app = new Elysia()
   .use(cors())
@@ -18,14 +22,10 @@ const app = new Elysia()
       logoUrl: x.logo_url,
       merchantName: x.merchant_name,
       pending: x.pending,
-      personalFinanceCategory: x.personal_finance_category,
       transactionType: x.transaction_type,
     }));
 
     return result;
-  })
-  .get("/categories", () => {
-    return categories;
   })
   .get("/accounts", () => {
     const result: Account[] = accounts.map((x) => ({
@@ -42,6 +42,12 @@ const app = new Elysia()
     }));
 
     return result;
+  })
+  .get("/categories", (): Category[] => {
+    return categories;
+  })
+  .get("/trackers", (): Tracker[] => {
+    return trackers;
   })
   .listen(3000);
 

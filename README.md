@@ -59,4 +59,6 @@ Open http://localhost:5173/ with your browser to see the result.
 
 - I left a comment in a file, but rather than getting all transactions on the account deatils page, maybe for that situation it would be more performant to load transactions by accountId.
 - For fetching all transactions, I'd imagine over time it will grow large in size. We might be able to leverage either pagination and/or lazy loading for this.
-- For adding, viewing, updating, and removing tracker categories, I used the react context api for state. This is just for demo purposes as it will not persist over refreshes. Normally in this scenerio I would be calling a post, update, or delete endpoint to update the database, then I would refresh the get query for user trackers.
+- Since Empower has a wide customer base across multiple regions, we could implement localization for the UI to match whether it should display in English or Spanish etc.
+- For adding, viewing, updating, and removing tracker categories, I used the react context api for state. This is just for demo purposes as it will not persist over refreshes. Normally in this scenerio I would be calling a post, update, or delete endpoint to update the database, then I would refresh the GET query for user trackers.
+- To make the trackers better for users we could implement dynamic monthly or weekly goals and have a preference set for what they want to keep track of by default.
