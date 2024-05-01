@@ -8,7 +8,7 @@ export const AppRouter = () => {
     <Routes>
       {/* Set the general layout across all pages */}
       <Route path="/" element={<Layout />}>
-        {/* Pages */}
+        {/* Pages (would be private routes)*/}
         <Route path="/" element={<Dashboard />} />
 
         {/* 404 not found */}

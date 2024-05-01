@@ -1,30 +1,46 @@
-export const transactions = {
-  accounts: [
-    {
-      account_id: "BxBXxLj1m4HMXBm9WZZmCWVbPjX16EHwv99vp",
-      balances: {
-        available: 110.94,
-        current: 110.94,
-        iso_currency_code: "USD",
-        limit: null,
-        unofficial_currency_code: null,
-      },
-      mask: "0000",
-      name: "Plaid Checking",
-      official_name: "Plaid Gold Standard 0% Interest Checking",
-      subtype: "checking",
-      type: "depository",
+export const accounts = [
+  {
+    account_id: "1",
+    balances: {
+      available: 110.94,
+      current: 110.94,
+      iso_currency_code: "USD",
+      limit: null,
+      unofficial_currency_code: null,
     },
-  ],
+    mask: "0000",
+    name: "Plaid Checking",
+    official_name: "Plaid Gold Standard 0% Interest Checking",
+    subtype: "checking",
+    type: "depository",
+  },
+  {
+    account_id: "2",
+    balances: {
+      available: 2000.34,
+      current: 2028.34,
+      iso_currency_code: "USD",
+      limit: null,
+      unofficial_currency_code: null,
+    },
+    mask: "0000",
+    name: "Ally Bank",
+    official_name: "Ally Financial Inc. Spending Account",
+    subtype: "checking",
+    type: "depository",
+  },
+];
+
+export const transactions = {
   transactions: [
     {
-      account_id: "BxBXxLj1m4HMXBm9WZZmCWVbPjX16EHwv99vp",
+      account_id: "1",
       account_owner: null,
       amount: 28.34,
       iso_currency_code: "USD",
       unofficial_currency_code: null,
       category: ["Food and Drink", "Restaurants", "Fast Food"],
-      category_id: "13005032",
+      category_id: "1000",
       check_number: null,
       counterparties: [
         {
@@ -45,10 +61,10 @@ export const transactions = {
           confidence_level: "VERY_HIGH",
         },
       ],
-      date: "2023-09-28",
-      datetime: "2023-09-28T15:10:09Z",
-      authorized_date: "2023-09-27",
-      authorized_datetime: "2023-09-27T08:01:58Z",
+      date: "2024-04-30",
+      datetime: "2024-04-30T15:10:09Z",
+      authorized_date: "2024-04-29",
+      authorized_datetime: "2024-04-29T08:01:58Z",
       location: {
         address: null,
         city: null,
@@ -89,13 +105,13 @@ export const transactions = {
       transaction_type: "digital",
     },
     {
-      account_id: "BxBXxLj1m4HMXBm9WZZmCWVbPjX16EHwv99vp",
+      account_id: "2",
       account_owner: null,
       amount: 72.1,
       iso_currency_code: "USD",
       unofficial_currency_code: null,
       category: ["Shops", "Supermarkets and Groceries"],
-      category_id: "19046000",
+      category_id: "2000",
       check_number: null,
       counterparties: [
         {
@@ -107,10 +123,10 @@ export const transactions = {
           confidence_level: "VERY_HIGH",
         },
       ],
-      date: "2023-09-24",
-      datetime: "2023-09-24T11:01:01Z",
-      authorized_date: "2023-09-22",
-      authorized_datetime: "2023-09-22T10:34:50Z",
+      date: "2024-04-29",
+      datetime: "2024-04-29T11:01:01Z",
+      authorized_date: "2024-04-28",
+      authorized_datetime: "2024-04-28T10:34:50Z",
       location: {
         address: "13425 Community Rd",
         city: "Poway",
@@ -165,23 +181,15 @@ export const transactions = {
   request_id: "45QSn",
 };
 
-export const categories = {
-  categories: [
-    {
-      category_id: "10000000",
-      group: "special",
-      hierarchy: ["Bank Fees"],
-    },
-    {
-      category_id: "10001000",
-      group: "special",
-      hierarchy: ["Bank Fees", "Overdraft"],
-    },
-    {
-      category_id: "12001000",
-      group: "place",
-      hierarchy: ["Community", "Animal Shelter"],
-    },
-  ],
-  request_id: "ixTBLZGvhD4NnmB",
-};
+export const categories = [
+  {
+    category_id: "1000",
+    name: "FOOD_AND_DRINK",
+    subCategories: ["FOOD_AND_DRINK_FAST_FOOD, FOOD_AND_DRINK_GROCERIES"],
+  },
+  {
+    category_id: "2000",
+    group: "GENERAL_MERCHANDISE",
+    subCategories: ["GENERAL_MERCHANDISE_SUPERSTORES"],
+  },
+];

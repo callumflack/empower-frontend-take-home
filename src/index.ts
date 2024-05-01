@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
-import { categories, transactions } from "./mockData";
+import { accounts, categories, transactions } from "./mockData";
 
 const app = new Elysia()
   .use(cors())
@@ -9,6 +9,9 @@ const app = new Elysia()
   })
   .get("/categories", () => {
     return categories;
+  })
+  .get("/accounts", () => {
+    return accounts;
   })
   .listen(3000);
 
