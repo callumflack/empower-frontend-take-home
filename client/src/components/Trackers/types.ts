@@ -21,6 +21,4 @@ export interface Category {
 export interface Tracker {
   categoryId: string;
   budget: number;
-  percentUsed?: string;
-  amountSpent?: number;
 }

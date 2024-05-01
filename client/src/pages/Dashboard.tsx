@@ -6,7 +6,7 @@ export const Dashboard = () => {
   return (
     <div className="flex w-full flex-col gap-10">
       <Accounts />
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-10">
         <Trackers />
         <MonthlyBreakdown />
       </div>

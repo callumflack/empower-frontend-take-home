@@ -1,6 +1,7 @@
 import { useGetAccounts } from '@/api/useGetAccounts';
 import { ChevronRightIcon, PlusIcon } from '@radix-ui/react-icons';
 import { Link } from 'react-router-dom';
+import { AddButton } from '../AddButton';
 
 export const Accounts = () => {
   const { data: accounts } = useGetAccounts();
@@ -16,9 +17,7 @@ export const Accounts = () => {
           <p className="text-mediumGrey">Total: ${getTotal()}</p>
         </div>
 
-        <button className="h-min rounded-full bg-black p-2 text-white">
-          <PlusIcon />
-        </button>
+        <AddButton type="button" onClick={() => null} />
       </div>
       <ul
         role="list"
