@@ -4,7 +4,6 @@ export interface Account {
     available: number;
     current: number;
     iso_currency_code: "USD";
-    limit: number | null;
   };
   name: string;
   official_name: string;
