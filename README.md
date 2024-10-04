@@ -25,14 +25,18 @@ npm run client
 # Introduction
 
 You are working for a fintech company which offers a financial mobile application.
+
 The application's main feature set is to connect to third party banks and aggregate a
 customer's account and associated transaction information. The purpose is to provide
 notifications of changes in their account and to also provide budgeting capabilities.
+
 It is understood that this functionality is now often provided by individual bank apps, however
 this application will be a one stop shop to aggregate multiple bank accounts.
+
 As the company’s users have been requesting for web-based access, the company has
 decided to offer a web application equivalent of its current native mobile application feature
 set.
+
 The brief high level architecture of the system is described as:
 
 - A native mobile app for both Android and iOS
@@ -43,12 +47,13 @@ The brief high level architecture of the system is described as:
 # Functional Requirements
 
 Feature: Spend tracking
-Concept:
-A spend tracker defines an amount set (limit) for all transactions across the customer’s
+
+Concept: A spend tracker defines an amount set (limit) for all transactions across the customer’s
 account which meet some search criteria (e.g. category, or transaction name) for a given
 time period (weekly or monthly). It should be named/labeled for differentiation and display
 purposes.
-User Stories:
+
+## User Stories:
 
 - The customer must be able to view their accounts connected with the company and the
   balances associated with each account. (You may assume that 1 or more accounts have
@@ -58,7 +63,9 @@ User Stories:
 - The customer should be able to visualize their spending over a period of at least 1 week, so
   as to determine if they have exceeded their budgeted spend limit for any pre-determined
   category.
-  Bonus:
+
+## Bonus:
+
 - tbd
 - tbd
 
@@ -83,8 +90,10 @@ For the purposes of evaluation on the functional requirements, you are to:
 
 You should have produced a working front-end web application for submission. Aim for
 completing the exercise in no more than 5 hours.
+
 You are required to submit the exercise prior to your onsite interview, package it
 appropriately and provide ample documentation where necessary.
+
 The submission will be evaluated together with your interviewers during the technical onsite.
 We will be going over the design and technical decisions you have made as part of
 implementation.
