@@ -1,16 +1,13 @@
 {
-  "name": "elysia",
-  "version": "1.0.50",
+  "name": "server",
   "scripts": {
-    "client": "bun --cwd client dev",
-    "server": "bun run --watch src/index.ts"
+    "server": "bun run --hot server/index.ts",
+    "client": "bun --cwd client dev"
   },
   "dependencies": {
-    "@elysiajs/cors": "^1.0.2",
-    "elysia": "latest"
+    "hono": "^4.6.3"
   },
   "devDependencies": {
-    "bun-types": "latest"
-  },
-  "module": "src/index.js"
+    "@types/bun": "latest"
+  }
 }
