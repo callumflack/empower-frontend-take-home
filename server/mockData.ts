@@ -1,5 +1,5 @@
 import { format, subDays } from "date-fns";
-import { Account, Transaction } from "./types";
+import { Account, Category, Transaction } from "./types";
 
 const today = new Date(Date.now());
 const dateFormatted = (sub: number) =>
@@ -131,7 +131,7 @@ export const transactions: Transaction[] = [
   },
 ];
 
-export const categories = [
+export const categories: Category[] = [
   {
     id: "1",
     name: "Food",
