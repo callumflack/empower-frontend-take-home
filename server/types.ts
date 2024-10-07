@@ -22,13 +22,10 @@ export interface Transaction {
   iso_currency_code: "USD";
   category_id: string;
   date: string;
-  authorized_date: string;
-  name: string;
   merchant_name: string;
-  merchant_entity_id: string;
-  payment_channel: string;
-  pending: boolean;
-  pending_transaction_id: string | null;
+  merchant_id: string;
   logo_url: string;
   website: string;
+  payment_channel: string;
+  pending: boolean;
 }
