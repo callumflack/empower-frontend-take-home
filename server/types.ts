@@ -22,9 +22,7 @@ export interface Transaction {
   iso_currency_code: "USD";
   category_id: string;
   date: string;
-  datetime: string;
   authorized_date: string;
-  authorized_datetime: string;
   name: string;
   merchant_name: string;
   merchant_entity_id: string;

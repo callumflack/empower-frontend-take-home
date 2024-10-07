@@ -1,4 +1,9 @@
+import { format, subDays } from "date-fns";
 import { Account, Transaction } from "./types";
+
+const today = new Date(Date.now());
+const dateFormatted = (sub: number) =>
+  format(subDays(today, sub), "yyyy-MM-dd");
 
 export const accounts: Account[] = [
   {
@@ -33,10 +38,8 @@ export const transactions: Transaction[] = [
     amount: 28.34,
     iso_currency_code: "USD",
     category_id: "1",
-    date: "2024-04-30",
-    datetime: "2024-04-30T15:10:09Z",
-    authorized_date: "2024-04-29",
-    authorized_datetime: "2024-04-29T08:01:58Z",
+    date: dateFormatted(1),
+    authorized_date: dateFormatted(0),
     name: "Dd Doordash Burgerking",
     merchant_name: "Burger King",
     merchant_entity_id: "mVrw538wamwdm22mK8jqpp7qd5br0eeV9o4a1",
@@ -51,10 +54,8 @@ export const transactions: Transaction[] = [
     amount: 72.1,
     iso_currency_code: "USD",
     category_id: "2",
-    date: "2024-04-29",
-    datetime: "2024-04-29T11:01:01Z",
-    authorized_date: "2024-04-28",
-    authorized_datetime: "2024-04-28T10:34:50Z",
+    date: dateFormatted(2),
+    authorized_date: dateFormatted(1),
     name: "PURCHASE WM SUPERCENTER #1700",
     merchant_name: "Walmart",
     merchant_entity_id: "O5W5j4dN9OR3E6ypQmjdkWZZRoXEzVMz2ByWM",
