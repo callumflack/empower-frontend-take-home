@@ -1,5 +1,8 @@
 import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
 import { NotFound } from "@/components/NotFound";
+import { TopNav } from "@/components/TopNav";
+import appCss from "@/styles/index.css?url";
+import { seo } from "@/utils/seo";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
@@ -21,7 +24,12 @@ export const Route = createRootRouteWithContext<{
       name: "viewport",
       content: "width=device-width, initial-scale=1",
     },
+    ...seo({
+      title: "Empower Spend Tracker",
+      description: `Using TanStack Router and TanStack Query to build a simple app`,
+    }),
   ],
+  links: () => [{ rel: "stylesheet", href: appCss }],
   errorComponent: (props) => {
     return (
       <RootDocument>
@@ -48,6 +56,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Meta />
       </Head>
       <Body>
+        <TopNav />
         {children}
         <ScrollRestoration />
         <TanStackRouterDevtools position="bottom-left" />
