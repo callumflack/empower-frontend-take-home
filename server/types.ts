@@ -37,3 +37,11 @@ export interface SpendTracker {
   // category: string;
   category_id: string;
 }
+
+export interface SpendTrackerWithTransactions extends SpendTracker {
+  category?: string;
+  transactions?: Transaction[];
+  transactionCount?: number;
+  totalCost?: number;
+  isOverLimit?: boolean;
+}

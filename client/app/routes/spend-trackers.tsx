@@ -1,34 +1,53 @@
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { trackersQueryOptions } from "@/queries";
 import { Loader } from "@/components/Loader";
 import { PageNav } from "@/components/PageNav";
 import { SpendTrackerDialog } from "@/components/SpendTrackerDialog";
 import { SpendTrackerForm } from "@/components/SpendTrackerForm";
-import { Button } from "@/components/ui/button";
 import { TrackerCard } from "@/components/TrackerCard";
-import { useState, useEffect } from "react";
-import { SpendTracker } from "@server/types";
-import { cx } from "class-variance-authority";
-import { DialogTitle } from "@radix-ui/react-dialog";
+import { Button } from "@/components/ui/button";
 import { DialogDescription } from "@/components/ui/dialog";
+import {
+  categoriesQueryOptions,
+  trackersQueryOptions,
+  transactionsQueryOptions,
+} from "@/queries";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { SpendTracker, Transaction } from "@server/types";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
+import { cx } from "class-variance-authority";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/spend-trackers")({
   component: SpendTrackersRoute,
   meta: () => [{ title: "Spend Trackers" }],
   pendingComponent: () => <Loader />,
-  loader: ({ context: { queryClient } }) =>
-    queryClient.prefetchQuery(trackersQueryOptions()),
+  loader: async ({ context: { queryClient } }) =>
+    await Promise.all([
+      queryClient.prefetchQuery(trackersQueryOptions()),
+      queryClient.prefetchQuery(transactionsQueryOptions()),
+      queryClient.prefetchQuery(categoriesQueryOptions()),
+    ]),
 });
 
 function SpendTrackersRoute() {
-  const { data: trackers, isLoading } = useQuery(trackersQueryOptions());
+  const { data: trackers, isLoading } = useSuspenseQuery(
+    trackersQueryOptions()
+  );
+  const { data: transactions, isLoading: transactionsLoading } =
+    useSuspenseQuery(transactionsQueryOptions());
+
+  const { data: categories, isLoading: categoriesLoading } = useSuspenseQuery(
+    categoriesQueryOptions()
+  );
 
   const [localTrackers, setLocalTrackers] = useState<SpendTracker[]>([]);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editDialogState, setEditDialogState] = useState<{
     [key: string]: boolean;
   }>({});
+  const [updatedTrackerIds, setUpdatedTrackerIds] = useState<Set<string>>(
+    new Set()
+  );
 
   useEffect(() => {
     if (trackers) {
@@ -36,11 +55,47 @@ function SpendTrackersRoute() {
     }
   }, [trackers]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading && transactionsLoading && categoriesLoading) return <Loader />;
+
+  // Group transactions by cat ID (duplicated code)
+  const transactionsByCategory: Record<string, Transaction[]> =
+    transactions.reduce(
+      (acc, transaction) => {
+        const categoryId = transaction.category_id;
+        if (!acc[categoryId]) {
+          acc[categoryId] = [];
+        }
+        acc[categoryId].push(transaction);
+        return acc;
+      },
+      {} as Record<string, Transaction[]>
+    );
+
+  const trackersWithTransactions = localTrackers.map((tracker) => {
+    const trackerTransactions =
+      transactionsByCategory[tracker.category_id] || [];
+    const transactionCount = trackerTransactions.length;
+    const totalCost = trackerTransactions.reduce(
+      (sum, txn) => sum + txn.amount,
+      0
+    );
+    const isOverLimit = totalCost > tracker.limit;
+    const category =
+      categories.find((cat) => cat.id === tracker.category_id)?.name ||
+      "Uncategorized";
+
+    return {
+      ...tracker,
+      category,
+      transactions: trackerTransactions,
+      transactionCount,
+      totalCost,
+      isOverLimit,
+    };
+  });
 
   const handleCreate = (newTracker: SpendTracker) => {
     setLocalTrackers((prev) => [...prev, newTracker]);
-    console.log("Local trackers:", localTrackers);
   };
 
   const handleUpdate = (updatedTracker: SpendTracker) => {
@@ -50,6 +105,14 @@ function SpendTrackersRoute() {
       )
     );
     setEditDialogState((prev) => ({ ...prev, [updatedTracker.id]: false }));
+    setUpdatedTrackerIds((prev) => new Set(prev).add(updatedTracker.id));
+    setTimeout(() => {
+      setUpdatedTrackerIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(updatedTracker.id);
+        return newSet;
+      });
+    }, 5000);
   };
 
   const handleDelete = (id: string) => {
@@ -79,8 +142,8 @@ function SpendTrackersRoute() {
       </PageNav>
       <div className="container max-w-[960px] pt-8 space-y-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {trackers &&
-            localTrackers.map((tracker) => (
+          {trackersWithTransactions &&
+            trackersWithTransactions.map((tracker) => (
               <SpendTrackerDialog
                 key={tracker.id}
                 open={editDialogState[tracker.id] || false}
@@ -99,7 +162,13 @@ function SpendTrackersRoute() {
                       "focus-visible:ring-8 focus-visible:ring-green-200 focus-visible:border focus-visible:border-muted-foreground"
                     )}
                   >
-                    <TrackerCard tracker={tracker} />
+                    <TrackerCard
+                      tracker={tracker}
+                      showConfirmation={updatedTrackerIds.has(tracker.id)}
+                      transactionCount={tracker.transactionCount}
+                      totalCost={tracker.totalCost}
+                      isOverLimit={tracker.isOverLimit}
+                    />
                   </button>
                 }
               >

@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
   pendingComponent: () => <Loader />,
   loader: async ({ context: { queryClient } }) => {
     await Promise.all([
-      // prefetchQuery works better than ensureQueryData, but this may have to do with local dev server on 3001
+      // prefetchQuery seems to work better than ensureQueryData, but this may have to do with local dev server on 3001 with TS Start SSR
       queryClient.prefetchQuery(accountsQueryOptions()),
       queryClient.prefetchQuery(transactionsQueryOptions()),
       queryClient.prefetchQuery(categoriesQueryOptions()),
@@ -64,14 +64,6 @@ function Index() {
   });
 
   if (isLoading) return <Loader />;
-
-  // map leads to union types
-  // const [accounts, transactions] = results.map((result) => result.data);
-  // …whereas accessing sequentially by index retains the original query types
-  // const [accountsResult, transactionsResult] = results;
-  // const accounts = accountsResult.data;
-  // const transactions = transactionsResult.data;
-  // console.log("Transactions:", transactions);
 
   return (
     <div className="pb-60">
