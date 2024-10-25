@@ -104,8 +104,16 @@ function SpendTrackersRoute() {
         tracker.id === updatedTracker.id ? updatedTracker : tracker
       )
     );
-    setEditDialogState((prev) => ({ ...prev, [updatedTracker.id]: false }));
+
+    // First, set the updatedTrackerIds
     setUpdatedTrackerIds((prev) => new Set(prev).add(updatedTracker.id));
+
+    // Then, after a brief delay, close the dialog
+    setTimeout(() => {
+      setEditDialogState((prev) => ({ ...prev, [updatedTracker.id]: false }));
+    }, 100);
+
+    // Remove the confirmation after 5 seconds as before
     setTimeout(() => {
       setUpdatedTrackerIds((prev) => {
         const newSet = new Set(prev);
