@@ -1,32 +1,98 @@
-import { accountsQueryOptions } from "@/queries";
-import type { Account } from "@server/types";
-import { useQuery } from "@tanstack/react-query";
+import { Loader } from "@/components/Loader";
+import { PageNav } from "@/components/PageNav";
+import { TransactionsList } from "@/components/TransactionsList";
+import {
+  accountsQueryOptions,
+  transactionsQueryOptions,
+  categoriesQueryOptions,
+} from "@/queries";
+import type { Transaction } from "@server/types";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import type { TransactionGroup, TransactionWithCategory } from "@/types";
 
 export const Route = createFileRoute("/")({
   component: Index,
-  loader: ({ context: { queryClient } }) =>
-    queryClient.ensureQueryData(accountsQueryOptions()),
+  pendingComponent: () => <Loader />,
+  loader: async ({ context: { queryClient } }) => {
+    await Promise.all([
+      // prefetchQuery works better than ensureQueryData, but this may have to do with local dev server on 3001
+      queryClient.prefetchQuery(accountsQueryOptions()),
+      queryClient.prefetchQuery(transactionsQueryOptions()),
+      queryClient.prefetchQuery(categoriesQueryOptions()),
+    ]);
+  },
 });
 
 function Index() {
-  const { data: accounts, isPending, error } = useQuery(accountsQueryOptions());
+  const { data: accounts } = useSuspenseQuery(accountsQueryOptions());
+  const { data: categories } = useSuspenseQuery(categoriesQueryOptions());
+  const { data: transactions, isLoading } = useSuspenseQuery({
+    ...transactionsQueryOptions(),
+    select: (transactions: Transaction[]): TransactionGroup[] => {
+      // Group by account_id
+      const grouped = transactions.reduce<
+        Record<string, TransactionWithCategory[]>
+      >((acc, transaction) => {
+        const accountId = transaction.account_id;
+        if (!acc[accountId]) {
+          acc[accountId] = [];
+        }
+        // Add category name to transaction
+        const category = categories.find(
+          (c) => c.id === transaction.category_id
+        );
+        acc[accountId].push({
+          ...transaction,
+          categoryName: category?.name || "Uncategorized",
+        });
+        return acc;
+      }, {});
 
-  if (isPending) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+      // Convert to array of groups
+      return Object.entries(grouped).map(([accountId, transactions]) => {
+        const account = accounts.find((a) => a.account_id === accountId);
+        return {
+          accountId,
+          transactions,
+          accountName: account?.name || "Unknown Account",
+          accountBalance: account?.balances.available || 0,
+        };
+      });
+    },
+  });
+
+  if (isLoading) return <Loader />;
+
+  // map leads to union types
+  // const [accounts, transactions] = results.map((result) => result.data);
+  // …whereas accessing sequentially by index retains the original query types
+  // const [accountsResult, transactionsResult] = results;
+  // const accounts = accountsResult.data;
+  // const transactions = transactionsResult.data;
+  // console.log("Transactions:", transactions);
 
   return (
-    <div className="p-2">
-      <h3>Welcome to Spend Tracker!</h3>
-      {accounts && (
-        <ul>
-          {accounts.map((account: Account) => (
-            <li key={account.account_id}>
-              {account.name} - ${account.balances.available}
-            </li>
+    <div className="pb-60">
+      <PageNav heading="Welcome to your Spending" />
+
+      <div className="container max-w-[960px] pt-10 space-y-8">
+        {transactions &&
+          transactions.map((group, i) => (
+            <div key={`${group.accountId}-${i}`} className="">
+              <div className="space-y-3">
+                <h2 className="text-lg font-semibold flex items-baseline gap-2.5">
+                  <span>{group.accountName}</span>
+                  <span className="text-foreground/50 text-base font-normal">
+                    ${group.accountBalance} available
+                  </span>
+                </h2>
+                <hr className="border-t border-muted-foreground/50" />
+              </div>
+              <TransactionsList transactions={group.transactions} />
+            </div>
           ))}
-        </ul>
-      )}
+      </div>
     </div>
   );
 }

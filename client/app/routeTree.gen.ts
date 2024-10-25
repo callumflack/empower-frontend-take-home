@@ -11,9 +11,16 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SpendTrackersImport } from './routes/spend-trackers'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const SpendTrackersRoute = SpendTrackersImport.update({
+  id: '/spend-trackers',
+  path: '/spend-trackers',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -32,6 +39,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/spend-trackers': {
+      id: '/spend-trackers'
+      path: '/spend-trackers'
+      fullPath: '/spend-trackers'
+      preLoaderRoute: typeof SpendTrackersImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -39,32 +53,37 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/spend-trackers': typeof SpendTrackersRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/spend-trackers': typeof SpendTrackersRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/spend-trackers': typeof SpendTrackersRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/spend-trackers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/spend-trackers'
+  id: '__root__' | '/' | '/spend-trackers'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SpendTrackersRoute: typeof SpendTrackersRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SpendTrackersRoute: SpendTrackersRoute,
 }
 
 export const routeTree = rootRoute
@@ -79,11 +98,15 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/spend-trackers"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/spend-trackers": {
+      "filePath": "spend-trackers.tsx"
     }
   }
 }
