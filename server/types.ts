@@ -29,3 +29,11 @@ export interface Transaction {
   payment_channel: string;
   pending: boolean;
 }
+
+export interface SpendTracker {
+  id: string;
+  name: string;
+  limit: number;
+  // category: string;
+  category_id: string;
+}

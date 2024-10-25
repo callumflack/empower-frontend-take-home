@@ -1,4 +1,9 @@
-import type { Account, Category, Transaction } from "@server/types";
+import type {
+  Account,
+  Category,
+  Transaction,
+  SpendTracker,
+} from "@server/types";
 import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/start";
 import axios from "redaxios";
@@ -49,4 +54,20 @@ export const transactionsQueryOptions = () =>
   queryOptions({
     queryKey: ["transactions"],
     queryFn: () => fetchTransactions(),
+  });
+
+export const fetchTrackers = createServerFn("GET", async () => {
+  console.info("Fetching trackers...");
+  return axios
+    .get<SpendTracker[]>(`${API_BASE_URL}/trackers`)
+    .then((r) => r.data)
+    .catch(() => {
+      throw new Error("Failed to fetch trackers");
+    });
+});
+
+export const trackersQueryOptions = () =>
+  queryOptions({
+    queryKey: ["trackers"],
+    queryFn: () => fetchTrackers(),
   });
