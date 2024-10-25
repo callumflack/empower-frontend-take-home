@@ -13,6 +13,7 @@ import type { TransactionGroup, TransactionWithCategory } from "@/types";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  meta: () => [{ title: "Spending Overview" }],
   pendingComponent: () => <Loader />,
   loader: async ({ context: { queryClient } }) => {
     await Promise.all([
