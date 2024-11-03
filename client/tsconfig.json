@@ -19,6 +19,8 @@
       "@/*": ["app/*"],
       "@server/*": ["../server/*"]
     },
+    "allowImportingTsExtensions": true,
+    "types": ["vite/client", "vitest/globals"],
     "noEmit": true
   }
 }

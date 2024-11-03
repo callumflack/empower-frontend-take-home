@@ -8,10 +8,10 @@ import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/start";
 import axios from "redaxios";
 
-// NB! We're using TS Start server functions (internal SSR to the client) to fetch from the server. Might be issues with external HTTP access from the TS Start server
 const API_BASE_URL = "http://127.0.0.1:3001";
 
 export const fetchAccounts = createServerFn("GET", async () => {
+  "use server";
   return axios
     .get<Account[]>(`${API_BASE_URL}/accounts`)
     .then((r) => r.data)
@@ -27,6 +27,7 @@ export const accountsQueryOptions = () =>
   });
 
 export const fetchCategories = createServerFn("GET", async () => {
+  "use server";
   return axios
     .get<Category[]>(`${API_BASE_URL}/categories`)
     .then((r) => r.data)
@@ -42,6 +43,7 @@ export const categoriesQueryOptions = () =>
   });
 
 export const fetchTransactions = createServerFn("GET", async () => {
+  "use server";
   return axios
     .get<Transaction[]>(`${API_BASE_URL}/transactions`)
     .then((r) => r.data)
@@ -57,6 +59,7 @@ export const transactionsQueryOptions = () =>
   });
 
 export const fetchTrackers = createServerFn("GET", async () => {
+  "use server";
   console.info("Fetching trackers...");
   return axios
     .get<SpendTracker[]>(`${API_BASE_URL}/trackers`)
